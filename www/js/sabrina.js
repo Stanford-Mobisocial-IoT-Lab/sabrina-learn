@@ -135,6 +135,10 @@ $(function() {
     var FILTERED_STUFF = new Set(["yes", "debug", "never mind", "hello", "thanks", "cool", "no", "sorry", "list", "here",
         "at work", "at home", "false", "true", "configure", "discover", "list devices", "list queries", "list commands"]);
 
+    function format(canonical) {
+        return canonical.replace('`` ', '“').replace(' \'\'', '”');
+    }
+
     $('#form').submit(function(event) {
         event.preventDefault();
 
@@ -157,7 +161,7 @@ $(function() {
             } else if (prediction === DO_FALLBACK) {
                 $('#prediction').text('Sabrina is somewhat confused. She needs your help!');
             } else {
-                $('#prediction').text(prediction.canonical);
+                $('#prediction').text(format(prediction.canonical));
             }
 
             var previous = null;
@@ -168,7 +172,7 @@ $(function() {
                     return;
                 previous = result.answer;
                 var link = $('<a href="#">')
-                    .text(result.canonical.replace('`` ', '“').replace(' \'\'', '”'))
+                    .text(format(result.canonical))
                     .addClass('result')
                     .attr('data-target-json', result.answer)
                     .click(accept);
