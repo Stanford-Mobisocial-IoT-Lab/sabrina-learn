@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Train Sabrina The Virtual Assistant</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="js/kinds.js"></script>
+    <script src="js/sabrina.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="banner">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand hidden-xs hidden-sm" href="#">Sabrina</a>
+        <span class="navbar-icon-divider hidden-xs hidden-sm" aria-hidden="true"></span>
+        <a href="https://www.stanford.edu" class="hidden-xs hidden-sm">
+          <img class="stanford" src="images/SUSig_White_Seal_Stacked_Left.png" width="130" alt="Official Seal of Stanford University" />
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+      	<!-- empty navbar for now -->
+      </div>
+    </nav>
+
+    <div class="container" id="page-body">
+      <header>
+        <h1 id="page-title">
+          Train sabrina
+        </h1>
+
+      <p>Thanks for being part of the Sabrina virtual assistant project.
+        In here you can help us train her to understand better and more complex sentences.</p>
+      <p>You can type a sentence in the box below, and Sabrina will respond with her best guess of what you mean.
+        Unfortunately, she will not get it right most of the time, so your task is to then click on the correct
+        interpretation in her pseudo-English.
+      </p>
+      <p>You don't have to worry, nothing will happen as a result of playing with Sabrina here, and if you don't
+        understand what Sabrina is responding for a particular sentence (or all Sabrina offers are wrong), just
+        type a new sentence to continue.
+      </p>
+	<p>If you want to know more, check out <a href="https://thingengine.stanford.edu/about">our website</a>.</p>
+      </header>
+      <div id="suggestions">
+        <small>
+          <p>A few suggestions to start:</p>
+          <ul id="suggestions-placeholder"></ul>
+          <button class="btn btn-default btn-sm" type="button" id="more-suggestions">More suggestions</button>
+        </small>
+      </div>
+      <div id="form">
+        <form>
+          <label class="sr-only" for="utterance">Utterance:</label>
+          <input type="text" class="form-control" placeholder="What do you want Sabrina to do?" id="utterance" />
+        </form>
+      </div>
+      <ul id="results">
+
+      </ul>
+      <div id="counter-box">
+        You have trained Sabrina with <span id="counter">0</span> sentences. Thank you!
+      </div>
+    </div>
+  </body>
+</html>
