@@ -29,4 +29,9 @@ body {
 
 #form {
     margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+#results-container {
+    display: none;
 }
