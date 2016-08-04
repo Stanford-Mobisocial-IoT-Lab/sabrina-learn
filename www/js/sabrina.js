@@ -50,4 +50,55 @@ $(function() {
 
     $('#more-suggestions').click(loadSuggestions);
     loadSuggestions();
+
+    var sessionId = undefined;
+    var utterance = undefined;
+    var counter = 0;
+
+    function accept(event) {
+        event.preventDefault();
+
+        var a = $(this);
+        var url = 'http://pepperjack.stanford.edu:8400/learn?locale=en';
+        url += '&sessionId=' + sessionId;
+        url += '&q=' + encodeURIComponent(utterance);
+        url += '&target=' + encodeURIComponent(a.attr('data-target-json'));
+
+        $.getJSON(url, function(data) {
+            $('#results').empty();
+            if (data.error)
+                console.log('Error in learning', data.error);
+            else
+                $('#counter').text(String(++counter));
+        });
+    }
+
+    var FILTERED_STUFF = new Set(["yes", "debug", "never mind", "hello", "thanks", "cool", "no", "sorry", "list", "here",
+        "at work", "at home", "false", "true"]);
+
+    $('#form').submit(function(event) {
+        event.preventDefault();
+
+        utterance = $('#utterance').val();
+
+        var url = 'http://pepperjack.stanford.edu:8400/query?locale=en&long=1';
+        if (sessionId)
+            url += '&sessionId=' + sessionId;
+        url += '&q=' + encodeURIComponent(utterance);
+        $.getJSON(url, function(data) {
+            sessionId = data.sessionId;
+            var results = $('#results');
+            results.empty();
+            data.candidates.forEach(function(result) {
+                if (FILTERED_STUFF.has(result.canonical))
+                    return;
+                var link = $('<a href="#">')
+                    .text(result.canonical.replace('`` ', '“').replace(' \'\'', '”'))
+                    .addClass('result')
+                    .attr('data-target-json', result.answer)
+                    .click(accept);
+                results.append($('<li>').append(link));
+            });
+        });
+    });
 });
