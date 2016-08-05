@@ -1,4 +1,6 @@
 $(function() {
+    var SEMPRE_URL = 'https://pepperjack.stanford.edu';
+
     function invocationFromJson(json) {
         var parsed = JSON.parse(json);
         if (parsed.action)
@@ -66,7 +68,7 @@ $(function() {
         event.preventDefault();
 
         var a = $(this);
-        var url = 'http://pepperjack.stanford.edu:8400/learn?locale=en';
+        var url = SEMPRE_URL + '/learn?locale=en';
         url += '&sessionId=' + sessionId;
         url += '&q=' + encodeURIComponent(utterance);
         url += '&target=' + encodeURIComponent(a.attr('data-target-json'));
@@ -144,7 +146,7 @@ $(function() {
 
         utterance = $('#utterance').val();
 
-        var url = 'http://pepperjack.stanford.edu:8400/query?locale=en&long=1';
+        var url = SEMPRE_URL + '/query?locale=en&long=1';
         if (sessionId)
             url += '&sessionId=' + sessionId;
         url += '&q=' + encodeURIComponent(utterance);
