@@ -137,8 +137,11 @@ $(function() {
     var FILTERED_STUFF = new Set(["yes", "debug", "never mind", "hello", "thanks", "cool", "no", "sorry", "list", "here",
         "at work", "at home", "false", "true", "configure", "discover", "list devices", "list queries", "list commands"]);
 
-    function format(canonical) {
-        return canonical.replace('`` ', '“').replace(' \'\'', '”');
+    function format(canonical, utterance) {
+        if (canonical === 'failuretoparse')
+            return 'Search for “' + utterance + '” on the web';
+        else
+            return canonical.replace(/`` ((?:[^']|'[^'])+) ''/g, '“$1”');
     }
 
     $('#form').submit(function(event) {
@@ -158,7 +161,7 @@ $(function() {
 
             var prediction = predict(data.candidates);
             console.log('prediction', prediction);
-            if (prediction === null) {
+            if (prediction === null || prediction.answer === '{"special":{"id":"tt:root.special.failed"}}') {
                 $('#prediction').text('Sabrina is confused. She searches for “' + utterance + '” on the web.');
             } else if (prediction === DO_FALLBACK) {
                 $('#prediction').text('Sabrina is somewhat confused. She needs your help!');
@@ -167,27 +170,22 @@ $(function() {
             }
 
             var previous = null;
+            var filter = (location.hash !== '#show-all');
             data.candidates.forEach(function(result) {
-                if (FILTERED_STUFF.has(result.canonical))
+                if (filter && FILTERED_STUFF.has(result.canonical))
                     return;
                 if (previous === result.answer)
                     return;
                 previous = result.answer;
                 var link = $('<a href="#">')
-                    .text(format(result.canonical))
+                    .text(format(result.canonical, utterance))
                     .addClass('result')
                     .attr('data-target-json', result.answer)
                     .click(accept);
                 results.append($('<li>').append(link));
             });
-            var link;
-            link = $('<a href="#">')
-                .text('Search for “' + utterance + '” on the web')
-                    .addClass('result')
-                    .click(rejectAll);
-            results.append($('<li>').append(link));
-            link = $('<a href="#">')
-                .text('None of the above')
+            var link = $('<a href="#">')
+                    .text('None of the above')
                     .addClass('result')
                     .click(rejectAll);
             results.append($('<li>').append(link));
